@@ -1,0 +1,26 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}{{ billet.title }}{% endblock %}
+
+{% block content %}
+<p>
+	<h2>{{ billet.title }}</h2>
+	<p>{{ billet.content }}</p>
+
+	<h3>Commentaires</h3>
+	{% for comment in comments %}
+		<strong>{{ comment.author.username }}</strong> a dit: {{ comment.content }} <br>
+	{% else %}
+		Pas encore de commentaires.
+	{% endfor %}
+
+	<h3>Ajouter un commentaire</h3>
+	{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+		Bientot !
+	{% else %}
+		<a href="{{ path('login') }}">Se connecter</a> pour ajouter un commentaire.
+	{% endif %}
+
+
+</p>
+{% endblock %}

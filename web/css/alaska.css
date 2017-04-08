@@ -2,6 +2,10 @@ body {
 	padding-top: 50px;
 }
 
+.billetTitle:hover, .billetTitle:focus {
+	text-decoration: none;
+}
+
 .footer {
     border-top: 1px solid #ccc;
     padding-top: 10px;
