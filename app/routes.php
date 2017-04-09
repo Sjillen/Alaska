@@ -1,6 +1,8 @@
 <?php
 
 use Symfony\Component\HttpFoundation\Request;
+use Alaska\Domain\Comment;
+use Alaska\Form\Type\CommentType;
 
 //Home page
 $app->get('/', function () use ($app) {
@@ -9,10 +11,29 @@ $app->get('/', function () use ($app) {
 })->bind('home');
 
 // Billet details with comments
-$app->get('/billet/{id}', function ($id) use ($app) {
-	$billet =$app['dao.billet']->find($id);
-	$comments =$app['dao.comment']->findAllByBillet($id);
-	return $app['twig']->render('billet.html.twig', array('billet' => $billet, 'comments' => $comments));
+$app->match('/billet/{id}', function ($id, Request $request) use ($app) {
+	$billet = $app['dao.billet']->find($id);
+	$commentFormView = null;
+	if ($app['security.authorization_checker']->isGranted('IS_AUTHENTICATED_FULLY')) {
+		// A user is fully authenticated : he can add comments
+		$comment = New Comment();
+		$comment->setBillet($billet);
+		$user = $app['user'];
+		$comment->setAuthor($user);
+		$commentForm = $app['form.factory']->create(CommentType::class, $comment);
+		$commentForm->handleRequest($request);
+		if ($commentForm->isSubmitted() && $commentForm->isValid()) {
+			$app['dao.comment']->save($comment);
+			$app['session']->getFlashBag()->add('success', 'Votre commentaire a ete ajoute avec succes.');
+		}
+		$commentFormView = $commentForm->createView();
+	}
+	$comments = $app['dao.comment']->findAllByBillet($id);
+
+	return $app['twig']->render('billet.html.twig', array(
+		'billet' => $billet,
+		'comments' => $comments,
+		'commentForm' => $commentFormView));
 })->bind('billet');
 
 // Login form

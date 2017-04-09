@@ -106,6 +106,30 @@ class CommentDAO extends DAO
 			throw new \Exception("No comment matching id " . $id);
 	}
 */
+
+	/**
+	 * Saves a comment into the database.
+	 *
+	 * @param \Alaska\Domain\Comment $comment The comment to save
+	 */
+	public function save (Comment $comment) {
+		$commentData = array(
+			'billet_id' 	=> $comment->getBillet()->getId(),
+			'usr_id'		=> $comment->getAuthor()->getId(),
+			'com_content'	=> $comment->getContent()
+			);
+
+		if ($comment->getId()) {
+			//The comment has been already saved : update it
+			$this->getDb()->update('t_comment', $commentData, array('com_id' => $comment->getId()));
+		} else {
+			// The comment has never been saved : insert it
+			$this->getDb()->insert('t_comment', $commentData);
+			//Get the id of the newly created comment and set it on the entity.
+			$id = $this->getDb()->lastInsertId();
+			$comment->setId($id);
+		}
+	}
 	/**
 	 * Creates a Comment object based on a DB row.
 	 *
