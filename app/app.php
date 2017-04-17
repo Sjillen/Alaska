@@ -44,6 +44,6 @@ $app['dao.comment'] = function ($app) {
 	$commentDAO = new Alaska\DAO\CommentDAO($app['db']);
 	$commentDAO->setBilletDAO($app['dao.billet']);
 	$commentDAO->setUserDAO($app['dao.user']);
-	//$commentDAO->setParentDAO($app['dao.comment']);
+	
 	return $commentDAO;
 };

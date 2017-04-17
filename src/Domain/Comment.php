@@ -34,9 +34,18 @@ class Comment
 	/**
 	 * Parent comment.
 	 *
-	 * @var \Alaska\Domain\Comment
+	 * @var integer
 	 */
 	private $parent;
+
+	/**
+	 * Chidren comments.
+	 *
+	 * @var \Alaska\Domain\Comment
+	 */
+	private $children;
+
+	
 
 	public function getId() {
 		return $this->id;
@@ -78,9 +87,20 @@ class Comment
 		return $this->parent;
 	}
 
-	public function setParent(Comment $parent) {
+	public function setParent($parent) {
 		$this->parent = $parent;
 		return $this;
 	}
+
+	public function getChildren() {
+		return $this->children;
+	}
+
+	public function setChildren(array $children) {
+		$this->children = $children;
+		return $this;
+	}
+
+	
 
 }

@@ -21,6 +21,5 @@ create table t_comment (
 	constraint fk_com_billet foreign key(billet_id) references t_billet(billet_id),
 	usr_id integer not null,
 	constraint fk_com_usr foreign key(usr_id) references t_user(usr_id),
-	parent_id integer,
-	constraint fk_com_parent foreign key(parent_id) references t_comment(com_id)	
+	parent_id integer	
 ) engine=innodb character set utf8 collate utf8_unicode_ci;

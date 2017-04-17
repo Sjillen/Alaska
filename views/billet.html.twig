@@ -8,12 +8,32 @@
 	<p>{{ billet.content }}</p>
 
 	<h3>Commentaires</h3>
+	{% block comment %}
 	{% for comment in comments %}
-		<strong>{{ comment.author.username }}</strong> a dit: {{ comment.content }} <br>
+		
+			<strong>{{ comment.author.username }}</strong> a dit: {{ comment.content }} <br>
+		
+		
+		{% block children %}
+		{% for childComment in comment.children %}
+			
+				<strong>----{{ childComment.author.username }}</strong> a repondu: {{ childComment.content }}<br>
+			{% block subchildren %}
+			{% for subChildComment in childComment.children %}
+				
+					<strong>--------{{ subChildComment.author.username }}</strong>	a repondu: {{ subChildComment.content }}<br>
+				
+			{% endfor %}
+			{% endblock %}
+
+		{% endfor %}
+		{% endblock %}
 	{% else %}
 		Pas encore de commentaires.
-	{% endfor %}
 
+		
+	{% endfor %}
+	{% endblock %}
 	<h3>Ajouter un commentaire</h3>
 	{% if commentForm %}
 		{{ form_start(commentForm) }}

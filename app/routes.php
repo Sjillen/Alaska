@@ -29,10 +29,11 @@ $app->match('/billet/{id}', function ($id, Request $request) use ($app) {
 		$commentFormView = $commentForm->createView();
 	}
 	$comments = $app['dao.comment']->findAllByBillet($id);
+	
 
 	return $app['twig']->render('billet.html.twig', array(
 		'billet' => $billet,
-		'comments' => $comments,
+		'comments' => $comments,	
 		'commentForm' => $commentFormView));
 })->bind('billet');
 
