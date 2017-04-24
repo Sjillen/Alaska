@@ -24,6 +24,27 @@ class CommentDAO extends DAO
 	public function setUserDAO(UserDAO $userDAO) {
 		$this->userDAO = $userDAO;
 	}
+
+
+	/**
+	 * Returns a list of all comment, sorted by date (most recent first).
+	 *
+	 * @return array A list of all comments.
+	 */
+	public function findAll() {
+		$sql = "select * from t_comment order by com_id desc";
+		$result = $this->getDb()->fetchAll($sql);
+
+		//Convert query result to an array of domain objects
+		$entities = array();
+		foreach ($result as $row) {
+			$id = $row['com_id'];
+			$entities[$id] = $this->buildDomainObject($row);
+		}
+		return $entities;
+	}
+
+
 	/**
 	* Return a list of all comments for a billet, sorted by date (most recent last).
 	*
@@ -73,7 +94,32 @@ class CommentDAO extends DAO
 	 	}
 	 } 
 
-	
+	 /**
+	  * Removes all comments for a billet
+	  *
+	  * @param $billetId The id of the billet
+	  */
+	 public function deleteAllByBillet($billetId) {
+	 	$this->getDb()->delete('t_comment', array('billet_id' => $billetId));
+	 }
+
+	 /**
+	  * Removes all comments for a user
+	  *
+	  * @param integer $userId The id of the user
+	  */
+	 public function deleteAllByUser($userId) {
+	 	$this->getDb()->delete('t_comment', array('usr_id' => $userId));
+	 }
+
+	 /**
+	  * Removes all comments for a parent
+	  *
+	  * @param $parentId The id of the parent comment
+	  */
+	public function deleteAllByParent($parentId) {
+		$this->getDb()->delete('t_comment', array('parent_id' => $parentId));
+	}
 
 	/**
 	 * Saves a comment into the database.
@@ -97,6 +143,34 @@ class CommentDAO extends DAO
 			$comment->setId($id);
 		}
 	}
+
+	/**
+	 *returns a comment matching the supplied id.
+	 *
+	 * @param integer $id The comment id
+	 *
+	 * @return \Alaska\Domain\Comment|throws an exception if no matching comment is found
+	 */
+	public function find($id) {
+		$sql = "select * from t_comment where com_id=?";
+		$row = $this->getDb()->fetchAssoc($sql, array($id));
+
+		if($row)
+			return $this->buildDomainObject($row);
+		else
+			throw new \Exception("Aucun commentaire correspondant a l'id " . $id);
+	}
+
+	/**
+	 *Removes a comment from the database.
+	 *
+	 * @param integer $id The comment id
+	 */
+	public function delete($id) {
+		// Delete the comment
+		$this->getDb()->delete('t_comment', array('com_id' => $id));
+	}
+
 	/**
 	 * Creates a Comment object based on a DB row.
 	 *
@@ -108,6 +182,7 @@ class CommentDAO extends DAO
 		$comment->setId($row['com_id']);
 		$comment->setContent($row['com_content']);
 		$comment->setParent($row['parent_id']);
+
 		if(array_key_exists('billet_id', $row)) {
 			// Find and set the associated billet
 			$billetId = $row['billet_id'];
@@ -120,13 +195,7 @@ class CommentDAO extends DAO
 			$user = $this->userDAO->find($userId);
 			$comment->setAuthor($user);
 		}
-/*		if(array_key_exists('parent_id', $row)) {
-			//Find and set the associated parent comment
-			$parentId = $row['parent_id'];
-			$parent = $this->commentDAO->find($parentId);
-			$comment->setComment($parent);
-		}
-*/
+
 		return $comment;
 	}
 }

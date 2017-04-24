@@ -55,4 +55,37 @@ class BilletDAO extends DAO
 		$billet->setContent($row['billet_content']);
 		return $billet;
 	}
+
+	/**
+	 * Saves a billet into the database
+	 *
+	 * @param \Alaska\Domain\Billet $billet The billet to save
+	 */
+	public function save(Billet $billet) {
+		$billetData = array(
+			'billet_title' => $billet->getTitle(),
+			'billet_content' => $billet->getContent(),
+			);
+
+		if ($billet->getId()) {
+			// The billet has already been saved : update it
+			$this->getDb()->update('t_billet', $billetData, array('billet_id' => $billet->getId()));
+		} else {
+			// The billet has never been saved : insert it
+			$this->getDb()->insert('t_billet', $billetData);
+			// Get the id of the newly created billet and set it on the entity.
+			$id = $this->getDb()->lastInsertId();
+			$billet->setId($id);
+		}
+	}
+
+	/**
+	 * Removes a billet from the database.
+	 *
+	 * @param integer $id The billet id.
+	 */
+	public function delete($id) {
+		//Delete the billet
+		$this->getDb()->delete('t_billet', array('billet_id' => $id));
+	}
 }
