@@ -17,3 +17,7 @@ body {
 	margin-bottom: 20px;
 }
 
+.enfant {
+	border: 1px solid #ccc;
+}
+

@@ -40,8 +40,10 @@
 					<td> {{ billet.content | truncate(60) }}</td>
 					<td>
 						<a href="{{ path('admin_billet_edit', {'id': billet.id }) }}" class="btn btn-info btn-xs" title="Editer"><span class="glyphicon glyphicon-edit"></span></a>
-						<button type="button" class="btn btn-danger btn-xs" title="Supprimer" data-toggle="modal" data-target="#billetDialog {{ billet.id }}"><span class="glyphicon glyphicon-remove"></span>
+
+						<button type="button" class="btn btn-danger btn-xs" title="Supprimer" data-toggle="modal" data-target="#billetDialog{{ billet.id }}"><span class="glyphicon glyphicon-remove"></span>
 						</button>
+
 						<div class="modal fade" id ="billetDialog{{ billet.id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 							<div class="modal-dialog">
 								<div class="modal-content">
@@ -86,7 +88,7 @@
 					{% for comment in comments %}
 					<tr>
 						<td><a class="billetTitle" href="{{ path('billet', { 'id': comment.billet.id}) }}">{{ comment.billet.title }}</a></td>
-						<td>{{ comment.author.username }}</td>
+						<td>{{ comment.author }}</td>
 						<td> {{ comment.content | truncate(60) }}</td>
 						<td>
 							<a href="{{ path('admin_comment_edit', { 'id': comment.id }) }}" class="btn btn-info btn-xs" title="Editer"><span class="glyphicon glyphicon-edit"></span></a>
@@ -173,6 +175,7 @@
 	        <a href="{{ path('admin_user_add') }}"><button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Add user</button></a>
 		</div>
 </div>
+
 {% endblock %}
 
 

@@ -10,7 +10,7 @@ ExceptionHandler::register();
 //Register service providers.
 $app->register(new Silex\Provider\DoctrineServiceProvider());
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
-	'twig.path' => __DIR__.'/../views'
+	'twig.path' => __DIR__.'/../views',	
 ));
 $app['twig'] = $app->extend('twig', function(Twig_Environment $twig, $app) {
 	$twig->addExtension(new Twig_Extensions_Extension_Text());
@@ -55,7 +55,7 @@ $app['dao.user'] = function ($app) {
 $app['dao.comment'] = function ($app) {
 	$commentDAO = new Alaska\DAO\CommentDAO($app['db']);
 	$commentDAO->setBilletDAO($app['dao.billet']);
-	$commentDAO->setUserDAO($app['dao.user']);
+	//$commentDAO->setUserDAO($app['dao.user']);
 	
 	return $commentDAO;
 };

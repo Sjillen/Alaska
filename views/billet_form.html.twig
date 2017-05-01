@@ -4,6 +4,7 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block content %}
+
 <h2 class="text-center">{{ block('title') }}</h2>
 {% for flashMessage in app.session.flashbag.get('success') %}
 <div class="alert alert-success">
@@ -13,10 +14,10 @@
 
 <div class="well">
 
-{{ form_start(billetForm, { 'attr' : {'class': 'form-horizontal'} }) }}
+{{ form_start(billetForm, { 'attr' : {'class': 'form-horizontal', 'novalidate': 'true'} }) }}
 	<div class="form-group">
 		{{ form_label(billetForm.title, null, { 'label_attr': {
-			'class': 'col-sm-4 control-label'
+			'class': 'col-sm-2 control-label'
 		}}) }}
 		<div class="col-sm-6">
 			{{ form_errors(billetForm.title) }}
@@ -25,20 +26,24 @@
 			}}) }}
 		</div>
 	</div>
-
+	
 	<div class="form-group">
 		{{ form_label(billetForm.content, null, { 'label_attr': {
-			'class': 'col-sm-4 control-label'
+			'class': 'col-sm-2 control-label'
 		}}) }}
-		<div class="col-sm-6">
+		<div class="col-sm-8">
+			
 			{{ form_errors(billetForm.content) }}
+			
 			{{ form_widget(billetForm.content, { 'attr': {
 				'class' : 'form-control',
 				'rows': '8'
 			}}) }}
+
+			
 		</div>
 	</div>
-
+	
 	<div class="form-group">
 		<div class="col-sm-offset-4 col-sm-3">
 			<input type="submit" class="btn btn-primary" value="sauvegarder" />
@@ -46,4 +51,16 @@
 	</div>
 {{ form_end(billetForm) }}
 </div>
+<script src="{{ asset('https://cloud.tinymce.com/stable/tinymce.min.js?
+			apiKey=mtl4ddehvmopkdxb1qjp8p5tkvn9b2u6rlpj68ngerwnabs9') }}"></script>
+<script>
+	tinymce.init({ 
+		selector: 'textarea',
+		language: 'fr_FR',
+		language_url: "{{ asset('/lib/js/tinymce/langs/fr_FR.js') }}",
+		plugins: "textcolor image wordcount",
+        toolbar: "forecolor backcolor image"
+ 	});
+</script>
+
 {% endblock %}

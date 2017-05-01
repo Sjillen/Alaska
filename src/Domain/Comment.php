@@ -60,7 +60,7 @@ class Comment
 		return $this->author;
 	}
 
-	public function setAuthor(User $author) {
+	public function setAuthor($author) {
 		$this->author = $author;
 		return $this;
 	}

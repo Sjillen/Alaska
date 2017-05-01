@@ -17,13 +17,7 @@ class CommentDAO extends DAO
 	public function setParentDAO(CommentDAO $parentDAO) {
 		$this->parentDAO = $parentDAO;
 	}
-	/**
-	 *@var \Alaska\DAO\UserDAO
-	 */
-	private $userDAO;
-	public function setUserDAO(UserDAO $userDAO) {
-		$this->userDAO = $userDAO;
-	}
+	
 
 
 	/**
@@ -57,7 +51,7 @@ class CommentDAO extends DAO
 		$billet = $this->billetDAO->find($billetId);
 		//billet_id is not selected by the sql query
 		// The billet won't be retrieved during domain objet construction
-		$sql = "select com_id, com_content, usr_id, parent_id from t_comment where billet_id=? order by com_id";
+		$sql = "select com_id, com_author, com_content, parent_id from t_comment where billet_id=? order by com_id";
 		$result = $this->getDb()->fetchAll($sql, array($billetId));
 		// Convert query result to an array of domain objects
 		$comments = array();
@@ -103,14 +97,7 @@ class CommentDAO extends DAO
 	 	$this->getDb()->delete('t_comment', array('billet_id' => $billetId));
 	 }
 
-	 /**
-	  * Removes all comments for a user
-	  *
-	  * @param integer $userId The id of the user
-	  */
-	 public function deleteAllByUser($userId) {
-	 	$this->getDb()->delete('t_comment', array('usr_id' => $userId));
-	 }
+	
 
 	 /**
 	  * Removes all comments for a parent
@@ -129,7 +116,7 @@ class CommentDAO extends DAO
 	public function save (Comment $comment) {
 		$commentData = array(
 			'billet_id' 	=> $comment->getBillet()->getId(),
-			'usr_id'		=> $comment->getAuthor()->getId(),
+			'com_author'		=> $comment->getAuthor(),
 			'com_content'	=> $comment->getContent()
 			);
 		if ($comment->getId()) {
@@ -180,6 +167,7 @@ class CommentDAO extends DAO
 	protected function buildDomainObject(array $row) {
 		$comment = new Comment();
 		$comment->setId($row['com_id']);
+		$comment->setAuthor($row['com_author']);
 		$comment->setContent($row['com_content']);
 		$comment->setParent($row['parent_id']);
 
@@ -189,12 +177,7 @@ class CommentDAO extends DAO
 			$billet = $this->billetDAO->find($billetId);
 			$comment->setBillet($billet);
 		}
-		if (array_key_exists('usr_id', $row)) {
-			// Find the associated author
-			$userId = $row['usr_id'];
-			$user = $this->userDAO->find($userId);
-			$comment->setAuthor($user);
-		}
+		
 
 		return $comment;
 	}
