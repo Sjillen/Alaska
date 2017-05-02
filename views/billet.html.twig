@@ -15,17 +15,105 @@
 			<div class="col-sm-12">
 				<strong>{{ comment.author }}</strong> a dit: {{ comment.content }} <br>
 				<div class="col-sm-2">	
-					<button type ="button" class="btn btn-primary btn-xs" value="Repondre" data-toggle="collapse" data-target="#newComment">Repondre</button>
+					<button type ="button" class="btn btn-primary btn-xs" value="Repondre" data-toggle="collapse" data-target="#{{ comment.id }}">Repondre</button>
 				</div>
+				<div id="{{ comment.id }}" class="collapse">
+				{{ form_start(commentForm) }}
+					<div class="row">
+						<div class="form-group col-sm-4">				
+							{{ form_errors(commentForm.author) }}
+							{{ form_widget(commentForm.author, { 'attr' : {
+							'rows': '4',
+							'class': 'form-control',
+							'placeholder': 'Entrez votre nom'
+							}}) }}
+						</div>
+			
+						<div class="form-group col-sm-10">
+							{{ form_errors(commentForm.content) }}
+							{{ form_widget(commentForm.content, { 'attr': {
+							'rows': '4',
+							'class': 'form-control',
+							'placeholder': 'Entrez votre commentaire'
+							}}) }}			
+						</div>
+
+						<div class="form-group">
+							{{ form_errors(commentForm.parent) }}
+							{{ form_widget(commentForm.parent, { 'attr': {
+							'value': "{{ comment.id }}",
+							'class': 'form-control'
+							
+							}}) }}			
+						</div>
+
+						<div class="form-group col-sm-12">
+							<input type="submit" class="btn btn-primary" value="Publier un commentaire"/>
+						</div>
+					</div>
+
+				{{ form_end(commentForm) }}
+				{% for flashMessage in app.session.flashbag.get('success') %}
+			
+					<div class="alert alert-success">
+					{{ flashMessage }}
+					</div>
+
+				{% endfor %}
+				</div>		
+
 
 				<div class="row">
 				{% for childComment in comment.children %}
 					<div class="col-sm-offset-1 col-sm-10">						
 						<strong>{{ childComment.author }}</strong> a repondu: {{ childComment.content }}<br>
 						<div class="col-sm-2">	
-							<button type ="button" class="btn btn-primary btn-xs" value="Repondre" data-toggle="collapse" data-target="#newComment">Repondre</button>
+							<button type ="button" class="btn btn-primary btn-xs" value="Repondre" data-toggle="collapse" data-target="#{{ childComment.id }}">Repondre</button>
 						</div>
+						<div id="{{ childComment.id }}" class="collapse">
+						{{ form_start(commentForm) }}
+							<div class="row">
+								<div class="form-group col-sm-4">				
+									{{ form_errors(commentForm.author) }}
+									{{ form_widget(commentForm.author, { 'attr' : {
+									'rows': '4',
+									'class': 'form-control',
+									'placeholder': 'Entrez votre nom'
+									}}) }}
+								</div>
+					
+								<div class="form-group col-sm-10">
+									{{ form_errors(commentForm.content) }}
+									{{ form_widget(commentForm.content, { 'attr': {
+									'rows': '4',
+									'class': 'form-control',
+									'placeholder': 'Entrez votre commentaire'
+									}}) }}			
+								</div>
 
+								<div class="form-group">
+									{{ form_errors(commentForm.parent) }}
+									{{ form_widget(commentForm.parent, { 'attr': {
+									'value': "{{ childComment.id }}",
+									'class': 'form-control'
+									
+									}}) }}			
+								</div>
+
+								<div class="form-group col-sm-12">
+									<input type="submit" class="btn btn-primary" value="Publier un commentaire"/>
+								</div>
+							</div>
+
+						{{ form_end(commentForm) }}
+						{% for flashMessage in app.session.flashbag.get('success') %}
+					
+							<div class="alert alert-success">
+							{{ flashMessage }}
+							</div>
+
+						{% endfor %}
+						</div>		
 						<div class="row">	
 						{% for subChildComment in childComment.children %}					
 							<div class="col-sm-offset-1 col-sm-10">						
@@ -35,57 +123,15 @@
 						</div>
 					</div>				
 				{% endfor %}
-				</div>
+				</div>		
 			</div>	
 
 		{% else %}
 			Pas encore de commentaires.			
-		{% endfor %}			
+		{% endfor %}
+
 		</div>
 	{% endblock %}
 	</div>
-	
-	
-		
-	<div id="newComment" class="collapse">
-		{{ form_start(commentForm) }}
-		<div class="row">
-			<div class="form-group col-sm-4">
-				
-				{{ form_errors(commentForm.author) }}
-				{{ form_widget(commentForm.author, { 'attr' : {
-				'rows': '4',
-				'class': 'form-control',
-				'placeholder': 'Entrez votre nom'
-				}}) }}
-			</div>
-			
-			<div class="form-group col-sm-10">
-				
-				{{ form_errors(commentForm.content) }}
-				{{ form_widget(commentForm.content, { 'attr': {
-				'rows': '4',
-				'class': 'form-control',
-				'placeholder': 'Entrez votre commentaire'
-				}}) }}
-				
-			</div>
-
-			<div class="form-group col-sm-12">
-				<input type="submit" class="btn btn-primary" value="Publier un commentaire"/>
-			</div>
-		</div>
-
-		{{ form_end(commentForm) }}
-		{% for flashMessage in app.session.flashbag.get('success') %}
-			
-			<div class="alert alert-success">
-				{{ flashMessage }}
-			</div>
-
-		{% endfor %}
-	</div>
-	
-
 </p>
 {% endblock %}

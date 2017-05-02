@@ -116,8 +116,9 @@ class CommentDAO extends DAO
 	public function save (Comment $comment) {
 		$commentData = array(
 			'billet_id' 	=> $comment->getBillet()->getId(),
-			'com_author'		=> $comment->getAuthor(),
-			'com_content'	=> $comment->getContent()
+			'com_author'	=> $comment->getAuthor(),
+			'com_content'	=> $comment->getContent(),
+			'parent_id'		=> $comment->getParent()
 			);
 		if ($comment->getId()) {
 			//The comment has been already saved : update it
@@ -128,6 +129,10 @@ class CommentDAO extends DAO
 			//Get the id of the newly created comment and set it on the entity.
 			$id = $this->getDb()->lastInsertId();
 			$comment->setId($id);
+		}
+
+		if ($comment->getParent() == 0) {
+			$this->getDb()->update('t_comment', $commentData, array('parent_id' => null));
 		}
 	}
 
