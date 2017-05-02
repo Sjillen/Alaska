@@ -24,7 +24,7 @@ $app->match('/billet/{id}', function ($id, Request $request) use ($app) {
 	
 	$commentForm = $app['form.factory']->create(CommentType::class, $comment);
 	$commentForm->handleRequest($request);
-	if ($commentForm->isSubmitted() && $commentForm->isValid()) {
+	if ($commentForm->isSubmitted() && $commentForm->isValid()) {		
 		$app['dao.comment']->save($comment);
 		$app['session']->getFlashBag()->add('success', 'Votre commentaire a ete ajoute avec succes.');
 	}
