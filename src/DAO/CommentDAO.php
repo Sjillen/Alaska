@@ -51,7 +51,7 @@ class CommentDAO extends DAO
 		$billet = $this->billetDAO->find($billetId);
 		//billet_id is not selected by the sql query
 		// The billet won't be retrieved during domain objet construction
-		$sql = "select com_id, com_author, com_content, parent_id from t_comment where billet_id=? order by com_id";
+		$sql = "select com_id, com_author, com_content, parent_id, report from t_comment where billet_id=? order by com_id";
 		$result = $this->getDb()->fetchAll($sql, array($billetId));
 		// Convert query result to an array of domain objects
 		$comments = array();
@@ -118,7 +118,8 @@ class CommentDAO extends DAO
 			'billet_id' 	=> $comment->getBillet()->getId(),
 			'com_author'	=> $comment->getAuthor(),
 			'com_content'	=> $comment->getContent(),
-			'parent_id'		=> $comment->getParent()
+			'parent_id'		=> $comment->getParent(),
+			'report'		=> $comment->setReport(0),
 			);
 		if ($comment->getId()) {
 			//The comment has been already saved : update it
@@ -164,6 +165,15 @@ class CommentDAO extends DAO
 	}
 
 	/**
+	 * Increments the report of a comment
+	 *
+	 * @param integer $id The comment id
+	 */
+	public function getReported($id) {
+		$this->setReport($this->getReport() + 1);
+	}
+
+	/**
 	 * Creates a Comment object based on a DB row.
 	 *
 	 * @param array $row The DB containing Comment data.
@@ -175,7 +185,7 @@ class CommentDAO extends DAO
 		$comment->setAuthor($row['com_author']);
 		$comment->setContent($row['com_content']);
 		$comment->setParent($row['parent_id']);
-
+		$comment->setReport($row['report']);
 		if(array_key_exists('billet_id', $row)) {
 			// Find and set the associated billet
 			$billetId = $row['billet_id'];

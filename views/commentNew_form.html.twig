@@ -1,0 +1,47 @@
+{{ form_start(commentForm, { 'attr' : { 'class' : 'form-horizontal'}}) }}
+	<div class="row">
+		<div class="form-group col-sm-4">				
+			{{ form_errors(commentForm.author) }}
+			{{ form_widget(commentForm.author, { 'attr' : {
+			'rows': '4',
+			'class': 'form-control',
+			'placeholder': 'Entrez votre nom'
+			}}) }}
+			
+		</div>
+
+		<div class="form-group col-sm-10">
+			{{ form_errors(commentForm.content) }}
+			{{ form_widget(commentForm.content, { 'attr': {
+			'rows': '4',
+			'class': 'form-control',
+			'placeholder': 'Entrez votre commentaire'
+			}}) }}	
+			
+		
+		</div>
+
+		<div class="form-group">
+			{{ form_errors(commentForm.parent) }}
+			{{ form_widget(commentForm.parent,{ 'value': comment.id, 'attr': {
+
+			'class': 'form-control'
+			
+			}}) }}	
+			
+
+		</div>
+
+		<div class="form-group col-sm-10">
+			<input type="submit" class="btn btn-primary btn-xs" value="Publier un commentaire"/>
+		</div>
+	</div>
+
+{{ form_end(commentForm) }}
+{% for flashMessage in app.session.flashbag.get('success') %}
+
+	<div class="alert alert-success">
+	{{ flashMessage }}
+	</div>
+
+{% endfor %}

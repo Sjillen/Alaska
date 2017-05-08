@@ -5,7 +5,7 @@
 {% block content %}
 <p>
 	<h2>{{ billet.title }}</h2>
-	<p>{{ billet.content }}</p>
+	<p>{{ billet.content | raw }}</p>
 	<div class="container">
 	<h3>Commentaires</h3>
 	{% block comment %}
@@ -13,112 +13,50 @@
 		<div class="row">			
 		{% for comment in comments %}
 			<div class="col-sm-12">
-				<strong>{{ comment.author }}</strong> a dit: {{ comment.content }} <br>
+				<blockquote>{{ comment.content }}
+					<footer><cite>{{ comment.author}}</cite></footer>
+				</blockquote>
 				<div class="row">
-				<div class="col-sm-2">	
-					<button type ="button" class="btn btn-primary btn-xs" value="Repondre" data-toggle="collapse" data-target="#{{ comment.id }}">Repondre</button>
-				</div>
-				<div id="{{ comment.id }}" class="col-sm-9 collapse">
-				{{ form_start(commentForm, { 'attr' : { 'class' :'form-horizontal'}}) }}
-					<div class="row">
-						<div class="form-group col-sm-4">				
-							{{ form_errors(commentForm.author) }}
-							{{ form_widget(commentForm.author, { 'attr' : {
-							'rows': '4',
-							'class': 'form-control',
-							'placeholder': 'Entrez votre nom'
-							}}) }}
-						</div>
-			
-						<div class="form-group col-sm-10">
-							{{ form_errors(commentForm.content) }}
-							{{ form_widget(commentForm.content, { 'attr': {
-							'rows': '4',
-							'class': 'form-control',
-							'placeholder': 'Entrez votre commentaire'
-							}}) }}			
-						</div>
-
-						<div class="form-group">
-							{{ form_errors(commentForm.parent) }}
-							{{ form_widget(commentForm.parent, { 'value': comment.id , 'attr': {
-							'class': 'form-control'							
-							}}) }}			
-						</div>
-
-						<div class="form-group col-sm-12">
-							<input type="submit" class="btn btn-primary btn-xs" value="Publier un commentaire"/>
-						</div>
+					<div class="col-sm-2">	
+						<button type ="button" class="btn btn-primary btn-xs" value="Repondre" data-toggle="collapse" data-target="#{{ comment.id }}">Repondre</button>
 					</div>
-
-				{{ form_end(commentForm) }}
-				{% for flashMessage in app.session.flashbag.get('success') %}
-			
-					<div class="alert alert-success">
-					{{ flashMessage }}
+					<div class="col-sm-2">
+						<button type="button" class="btn btn-danger btn-xs" value="Signaler">Signaler</button>
 					</div>
-
-				{% endfor %}
-				</div>		
+					<div id="{{ comment.id }}" class="col-sm-9 collapse">
+							
+						{{ include ('commentNew_form.html.twig') }}
+						
+					</div>		
 				</div>
 
 				<div class="row">
-				{% for childComment in comment.children %}
-					<div class="col-sm-offset-1 col-sm-10">						
-						<strong>{{ childComment.author }}</strong> a repondu: {{ childComment.content }}<br>
+				{% for comment in comment.children %}
+					<div class="col-sm-offset-1 col-sm-10">		
+						<blockquote>{{ comment.content }}
+							<footer><cite>{{ comment.author }}</cite></footer>
+						</blockquote>							
 						<div class="row">
-						<div class="col-sm-2">	
-							<button type ="button" class="btn btn-primary btn-xs" value="Repondre" data-toggle="collapse" data-target="#{{ childComment.id }}">Repondre</button>
-						</div>
-						<div id="{{ childComment.id }}" class="col-sm-9 collapse">
-						{{ form_start(commentForm, { 'attr' : { 'class' : 'form-horizontal'}}) }}
-							<div class="row">
-								<div class="form-group col-sm-4">				
-									{{ form_errors(commentForm.author) }}
-									{{ form_widget(commentForm.author, { 'attr' : {
-									'rows': '4',
-									'class': 'form-control',
-									'placeholder': 'Entrez votre nom'
-									}}) }}
-								</div>
-					
-								<div class="form-group col-sm-10">
-									{{ form_errors(commentForm.content) }}
-									{{ form_widget(commentForm.content, { 'attr': {
-									'rows': '4',
-									'class': 'form-control',
-									'placeholder': 'Entrez votre commentaire'
-									}}) }}			
-								</div>
-
-								<div class="form-group">
-									{{ form_errors(commentForm.parent) }}
-									{{ form_widget(commentForm.parent,{ 'value': childComment.id, 'attr': {
-				
-									'class': 'form-control'
-									
-									}}) }}			
-								</div>
-
-								<div class="form-group col-sm-10">
-									<input type="submit" class="btn btn-primary btn-xs" value="Publier un commentaire"/>
-								</div>
+							<div class="col-sm-2">	
+								<button type ="button" class="btn btn-primary btn-xs" value="Repondre" data-toggle="collapse" data-target="#{{ comment.id }}">Repondre</button>
 							</div>
-
-						{{ form_end(commentForm) }}
-						{% for flashMessage in app.session.flashbag.get('success') %}
-					
-							<div class="alert alert-success">
-							{{ flashMessage }}
+							<div class="col-sm-2">
+								<button type="button" class="btn btn-danger btn-xs" value="Signaler">Signaler</button>
 							</div>
-
-						{% endfor %}
-						</div>
+							
+						
+							<div id="{{ comment.id }}" class="col-sm-9 collapse">
+								
+								{{ include ('commentNew_form.html.twig') }}
+								
+							</div>
 						</div>		
 						<div class="row">	
-						{% for subChildComment in childComment.children %}					
-							<div class="col-sm-offset-1 col-sm-10">						
-								<strong>{{ subChildComment.author }}</strong>	a repondu: {{ subChildComment.content }}<br>
+						{% for comment in comment.children %}					
+							<div class="col-sm-offset-1 col-sm-10">
+								<blockquote>{{ comment.content }}
+									<footer><cite>{{ comment.author }}</cite></footer>
+								</blockquote>
 							</div>		
 						{% endfor %}					
 						</div>
