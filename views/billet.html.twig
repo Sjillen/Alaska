@@ -12,6 +12,7 @@
 
 		<div class="row">			
 		{% for comment in comments %}
+		
 			<div class="col-sm-12">
 				<blockquote>{{ comment.content }}
 					<footer><cite>{{ comment.author}}</cite></footer>
@@ -25,7 +26,55 @@
 					</div>
 					<div id="{{ comment.id }}" class="col-sm-9 collapse">
 							
-						{{ include ('commentNew_form.html.twig') }}
+					{{ form_start(commentForm, { 'attr' : { 'class' : 'form-horizontal'}}) }}
+						
+						{% for answer in commentForm.answers %}
+						<div class="row">
+							<div class="form-group col-sm-4">				
+								{{ form_errors(answer.author) }}
+								{{ form_widget(answer.author, { 'attr' : {
+								'rows': '4',
+								'class': 'form-control',
+								'placeholder': 'Entrez votre nom',
+								}}) }}
+								
+							</div>
+
+							<div class="form-group col-sm-10">
+								{{ form_errors(answer.content) }}
+								{{ form_widget(answer.content, { 'attr': {
+								'rows': '4',
+								'class': 'form-control',
+								'placeholder': 'Entrez votre commentaire',
+								}}) }}	
+								
+							
+							</div>
+
+							<div class="form-group">
+								{{ form_errors(answer.parent) }}
+								{{ form_widget(answer.parent,{ 'value': comment.id, 'attr': {
+
+								'class': 'form-control',
+								
+								}}) }}	
+								
+
+							</div>
+
+							<div class="form-group col-sm-10">
+								<input type="submit" class="btn btn-primary btn-xs" value="Publier un commentaire"/>
+							</div>
+						</div>
+						{% endfor %}
+					{{ form_end(commentForm) }}
+					{% for flashMessage in app.session.flashbag.get('success') %}
+
+						<div class="alert alert-success">
+						{{ flashMessage }}
+						</div>
+
+					{% endfor %}
 						
 					</div>		
 				</div>
@@ -47,8 +96,9 @@
 						
 							<div id="{{ comment.id }}" class="col-sm-9 collapse">
 								
-								{{ include ('commentNew_form.html.twig') }}
 								
+																
+										
 							</div>
 						</div>		
 						<div class="row">	
@@ -68,8 +118,9 @@
 		{% else %}
 			Pas encore de commentaires.			
 		{% endfor %}
-
+		
 		</div>
+	
 	{% endblock %}
 	</div>
 </p>
