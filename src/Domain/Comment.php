@@ -45,13 +45,6 @@ class Comment
 	 */
 	private $children;
 
-	/**
-	 * Report id
-	 *
-	 * @var integer
-	 */
-	private $report;
-
 	
 
 	public function getId() {
@@ -105,15 +98,6 @@ class Comment
 
 	public function setChildren(array $children) {
 		$this->children = $children;
-		return $this;
-	}
-
-	public function getReport() {
-		return $this->report;
-	}
-	
-	public function setReport($report) {
-		$this->report = $report;
 		return $this;
 	}
 
