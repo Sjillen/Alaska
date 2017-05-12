@@ -20,5 +20,6 @@ create table t_comment (
 	com_content varchar(500) not null,
 	billet_id integer not null,
 	constraint fk_com_billet foreign key(billet_id) references t_billet(billet_id),
-	parent_id integer	
+	parent_id integer,
+	report integer not null
 ) engine=innodb character set utf8 collate utf8_unicode_ci;

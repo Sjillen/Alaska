@@ -11,12 +11,12 @@ insert into t_user values
 
 
 insert into t_comment values
-(1,'Marcel', 'Je connais cet auteur, c\'est un monsieur genial',1, null);
+(1,'Marcel', 'Je connais cet auteur, c\'est un monsieur genial',1, null, 0);
 insert into t_comment values
-(2,'Victor', 'J\'aime beaucoup le concept !', 2, null);
+(2,'Victor', 'J\'aime beaucoup le concept !', 2, null, 0);
 insert into t_comment values
-(3, 'Alexandre', 'Moi aussi, mon histoire de mousquetaires je veux la faire en episodes !', 2, 2);
+(3, 'Alexandre', 'Moi aussi, mon histoire de mousquetaires je veux la faire en episodes !', 2, 2, 0);
 insert into t_comment values
-(4, 'Jean-Paul', 'Mouais moi j\'attends de voir ce que ca donne...', 2, 3);
+(4, 'Jean-Paul', 'Mouais moi j\'attends de voir ce que ca donne...', 2, 3, 0);
 insert into t_comment values
-(5, 'Marcel', 'Un petit episode en mangeant une madeleine, ce ne sera pas du temps perdu !', 2, null);
+(5, 'Marcel', 'Un petit episode en mangeant une madeleine, ce ne sera pas du temps perdu !', 2, null, 0);
