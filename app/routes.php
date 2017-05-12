@@ -4,12 +4,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Alaska\Domain\Comment;
 use Alaska\Domain\Billet;
 use Alaska\Domain\User;
-use Alaska\Domain\Answer;
 use Alaska\Form\Type\CommentType;
 use Alaska\Form\Type\BilletType;
 use Alaska\Form\Type\UserType;
-use Alaska\Form\Type\AnswerType;
-
 
 //Home page
 $app->get('/', function () use ($app) {
@@ -20,23 +17,21 @@ $app->get('/', function () use ($app) {
 // Billet details with comments
 $app->match('/billet/{id}', function ($id, Request $request) use ($app) {
 	$billet = $app['dao.billet']->find($id);
-	
-	$answer = new Answer();
-		
-	
-	$comments = $app['dao.comment']->findAllByBillet($id);
+	$commentFormView = null;
 	
 	$comment = New Comment();
 	$comment->setBillet($billet);
-	$answer->getAnswers()->add($comment);
-	$commentForm = $app['form.factory']->create(AnswerType::class, $answer);
-	$commentForm->handleRequest($request);
-	if ($commentForm->isSubmitted() && $commentForm->isValid()) {
-		$app['dao.comment']->save($comment);
-		$app['session']->getFlashBag()->add('sucess', 'Votre commentaire a ete ajoute avec succes.');
 	
+	$commentForm = $app['form.factory']->create(CommentType::class, $comment);
+	$commentForm->handleRequest($request);
+	if ($commentForm->isSubmitted() && $commentForm->isValid()) {		
+		$app['dao.comment']->save($comment);
+		$app['session']->getFlashBag()->add('success', 'Votre commentaire a ete ajoute avec succes.');
 	}
 	$commentFormView = $commentForm->createView();
+	 
+	$comments = $app['dao.comment']->findAllByBillet($id);
+	
 
 	return $app['twig']->render('billet.html.twig', array(
 		'billet' => $billet,

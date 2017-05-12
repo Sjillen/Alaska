@@ -170,8 +170,7 @@ class CommentDAO extends DAO
 	 * @param integer $id The comment id
 	 */
 	public function getReported($id) {
-		$reported = $this->setReport($this->getReport() + 1);
-		$this->getDb()->update('t_comment', array('com_id' => $id), array('report' => $reported));
+		$this->setReport($this->getReport() + 1);
 	}
 
 	/**

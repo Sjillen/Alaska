@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "cc8522d96714590540d58f3ffde94356",
+    "content-hash": "f93c25758f6931873297653f02ba0e9a",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -665,16 +665,16 @@
         },
         {
             "name": "silex/silex",
-            "version": "v2.1.0",
+            "version": "v2.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/silexphp/Silex.git",
-                "reference": "d5a9d9af14a1424ddecc3da481769cf64e7d3b34"
+                "reference": "49ca08d853731d1635374e5019c8696cfd53c161"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/silexphp/Silex/zipball/d5a9d9af14a1424ddecc3da481769cf64e7d3b34",
-                "reference": "d5a9d9af14a1424ddecc3da481769cf64e7d3b34",
+                "url": "https://api.github.com/repos/silexphp/Silex/zipball/49ca08d853731d1635374e5019c8696cfd53c161",
+                "reference": "49ca08d853731d1635374e5019c8696cfd53c161",
                 "shasum": ""
             },
             "require": {
@@ -706,7 +706,7 @@
                 "symfony/intl": "~2.8|^3.0",
                 "symfony/monolog-bridge": "~2.8|^3.0",
                 "symfony/options-resolver": "~2.8|^3.0",
-                "symfony/phpunit-bridge": "^3.2",
+                "symfony/phpunit-bridge": "~2.8|^3.0",
                 "symfony/process": "~2.8|^3.0",
                 "symfony/security": "~2.8|^3.0",
                 "symfony/serializer": "~2.8|^3.0",
@@ -714,13 +714,12 @@
                 "symfony/twig-bridge": "~2.8|^3.0",
                 "symfony/validator": "~2.8|^3.0",
                 "symfony/var-dumper": "~2.8|^3.0",
-                "symfony/web-link": "^3.3",
-                "twig/twig": "~1.28|~2.0"
+                "twig/twig": "~1.27|~2.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.1.x-dev"
+                    "dev-master": "2.0.x-dev"
                 }
             },
             "autoload": {
@@ -747,7 +746,7 @@
             "keywords": [
                 "microframework"
             ],
-            "time": "2017-05-03T15:21:42+00:00"
+            "time": "2016-11-06T18:09:06+00:00"
         },
         {
             "name": "symfony/asset",
@@ -930,60 +929,6 @@
             "description": "Symfony Form Component",
             "homepage": "https://symfony.com",
             "time": "2016-07-26T08:03:56+00:00"
-        },
-        {
-            "name": "symfony/options-resolver",
-            "version": "v3.0.9",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/options-resolver.git",
-                "reference": "77f7252e377e1dc021ba74defe12a19a45bb1212"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/77f7252e377e1dc021ba74defe12a19a45bb1212",
-                "reference": "77f7252e377e1dc021ba74defe12a19a45bb1212",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.5.9"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\OptionsResolver\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony OptionsResolver Component",
-            "homepage": "https://symfony.com",
-            "keywords": [
-                "config",
-                "configuration",
-                "options"
-            ],
-            "time": "2016-05-09T18:14:44+00:00"
         },
         {
             "name": "symfony/polyfill-intl-icu",
