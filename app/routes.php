@@ -8,6 +8,12 @@ $app->get('/', "Alaska\Controller\HomeController::indexAction")
 $app->match('/billet/{id}', "Alaska\Controller\HomeController::billetAction")
 ->bind('billet');
 
+$app->match('/comment/{idParent}/{billetId}/add/', "Alaska\Controller\HomeController::addCommentAction")
+->bind('comment_add');
+
+$app->match('/comment/{id}/report/', "Alaska\Controller\HomeController::reportAction")
+->bind('comment_report');
+
 // Login form
 $app->get('/login', "Alaska\Controller\HomeController::loginAction")
 ->bind('login');

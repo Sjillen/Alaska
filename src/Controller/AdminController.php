@@ -149,7 +149,7 @@ class AdminController
 			// find the default encoder
 			$encoder = $app['security.encoder.bcrypt'];
 			// compute the encoded password
-			$password = $encode->encodePassword($plainPassword, $user=.getSalt());
+			$password = $encode->encodePassword($plainPassword, $user=getSalt());
 			$user->setPassword($password);
 			$app['dao.user']->save($user);
 			$app['session']->getFlashBag()->add('success', 'Le profil utilisateur a été créé avec succès.');

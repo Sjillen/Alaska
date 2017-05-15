@@ -30,23 +30,68 @@ class HomeController {
 	public function billetAction($id, Request $request, Application $app) {
 		$billet = $app['dao.billet']->find($id);
 		$commentFormView = null;
+	
+		$comments = $app['dao.comment']->findAllByBillet($id);
+
 		$comment = new Comment();
 		$comment->setBillet($billet);
-		$commentForm = $app['form.factory']->create(CommentType::class, $comment);
-		$commentForm->handleRequest($request);
-		if ($commentForm->isSubmitted() && $commentForm->isValid()) {
+
+		$form = $app['form.factory']->create(CommentType::class, $comment);
+		$form->handleRequest($request);
+		if ($form->isSubmitted() && $form->isValid()) {
 			$app['dao.comment']->save($comment);
 			$app['session']->getFlashBag()->add('success', 'Votre commentaire a été ajouté avec succès.');
 		}
-		$commentFormView = $commentForm->createView();
-	
-		$comments = $app['dao.comment']->findAllByBillet($id);
+		$commentFormView = $form->createView();
+		
 
 		return $app['twig']->render('billet.html.twig', array(
 			'billet' => $billet,
 			'comments' => $comments,
 			'commentForm' => $commentFormView
 			));
+	}
+
+	/**
+	 * Comment answer controller.
+	 *
+	 * @param integer $id Comment id
+	 * @param Request $request Incoming request
+	 * @param Application $app Silex application
+	 */
+	public function addCommentAction($idParent, $billetId, Request $request, Application $app)
+	{
+		$billet = $app['dao.billet']->find($billetId);
+		$comment = new Comment();
+		$comment->setBillet($billet);
+		if ($idParent != 'null')
+		{
+			
+			$comment->setAuthor($request->get('answerFormPseudo'.$idParent));
+			$comment->setContent($request->get('answerFormContent'.$idParent));
+			$comment->setParent($idParent);
+			$comment->setReport(0);
+		}
+		else
+		{
+			$comment->setAuthor($request->get('commentFormPseudo' .$idParent));
+			$comment->setContent($request->get('commentFormContent'.$idParent));
+			$comment->setParent(null);
+			$comment->setReport(0);
+		}
+
+		$app['dao.comment']->save($comment);
+		$app['session']->getFlashBag()->add('success', 'Votre commentaire a été ajouté avec succès.');
+
+		return $app->redirect($app['url_generator']->generate('billet', array('id' => $billet->getId())));
+	}
+
+	public function reportAction($id, Application $app)
+	{
+		
+		$app['dao.comment']->getReported($id);
+		$app['session']->getFlashBag()->add('success', 'Le commentaire a bien été signalé.');
+		return $app->redirect($app['url_generator']->generate('billet', array('id' => $billet->getId())));
 	}
 
 	/**

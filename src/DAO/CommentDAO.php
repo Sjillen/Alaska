@@ -119,7 +119,7 @@ class CommentDAO extends DAO
 			'com_author'	=> $comment->getAuthor(),
 			'com_content'	=> $comment->getContent(),
 			'parent_id'		=> $comment->getParent(),
-			'report'		=> $comment->setReport(0),
+			'report'		=> $comment->getReport(),
 			);
 		if ($comment->getId()) {
 			//The comment has been already saved : update it
@@ -170,8 +170,8 @@ class CommentDAO extends DAO
 	 * @param integer $id The comment id
 	 */
 	public function getReported($id) {
-		$reported = $this->setReport($this->getReport() + 1);
-		$this->getDb()->update('t_comment', array('com_id' => $id), array('report' => $reported));
+		
+		$this->getDb()->update('t_comment', array('com_id' => $id), array('report'+= 1));
 	}
 
 	/**
