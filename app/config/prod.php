@@ -10,3 +10,6 @@ $app['db.options'] = array(
 	'user'		=> 'root',
 	'password'	=> '',
 );
+
+parameters:
+	brochures_directory: '%kernel.root_dir%/../web/images';

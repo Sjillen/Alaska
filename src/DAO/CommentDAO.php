@@ -26,7 +26,7 @@ class CommentDAO extends DAO
 	 * @return array A list of all comments.
 	 */
 	public function findAll() {
-		$sql = "select * from t_comment order by com_id desc";
+		$sql = "select * from t_comment order by report desc";
 		$result = $this->getDb()->fetchAll($sql);
 
 		//Convert query result to an array of domain objects
@@ -171,7 +171,10 @@ class CommentDAO extends DAO
 	 */
 	public function getReported($id) {
 		
-		$this->getDb()->update('t_comment', array('com_id' => $id), array('report'+= 1));
+		$comment = $this->find($id);
+		$reported = $comment->getReport() + 1;
+
+		$this->getDb()->update('t_comment', array('report' => $reported), array('com_id' => $id));
 	}
 
 	/**

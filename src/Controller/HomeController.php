@@ -86,9 +86,9 @@ class HomeController {
 		return $app->redirect($app['url_generator']->generate('billet', array('id' => $billet->getId())));
 	}
 
-	public function reportAction($id, Application $app)
+	public function reportAction($id, $billetId, Application $app)
 	{
-		
+		$billet = $app['dao.billet']->find($billetId);
 		$app['dao.comment']->getReported($id);
 		$app['session']->getFlashBag()->add('success', 'Le commentaire a bien été signalé.');
 		return $app->redirect($app['url_generator']->generate('billet', array('id' => $billet->getId())));

@@ -3,8 +3,14 @@
 {% block title %}{{ billet.title }}{% endblock %}
 
 {% block content %}
+{% for flashMessage in app.session.flashbag.get('success') %}
+	<div class="alert alert-success">
+		{{ flashMessage }}
+	</div>
+{% endfor %}
 <p>
 	<h2>{{ billet.title }}</h2>
+	<div> {{ billet.pic }} </div>
 	<p>{{ billet.content | raw }}</p>
 	<div class="container">
 	<h3>Commentaires</h3>
@@ -21,7 +27,7 @@
 						<button type ="button" class="btn btn-primary btn-xs" value="Repondre" data-toggle="collapse" data-target="#{{ comment.id }}">Repondre</button>
 					</div>
 					<div class="col-sm-2">
-						<a href="{{ path('comment_report', { 'id': comment.id }) }}">
+						<a href="{{ path('comment_report', { 'id': comment.id, 'billetId': billet.id }) }}">
 						<button type="button" class="btn btn-danger btn-xs" value="Signaler">Signaler</button></a>
 					</div>
 					<div id="{{ comment.id }}" class="col-sm-9 collapse">
@@ -50,7 +56,7 @@
 								<button type ="button" class="btn btn-primary btn-xs" value="Repondre" data-toggle="collapse" data-target="#{{ childComment.id }}">Repondre</button>
 							</div>
 							<div class="col-sm-2">
-								<a href="{{ path('comment_report', { 'id': childComment.id }) }}">
+								<a href="{{ path('comment_report', { 'id': childComment.id, 'billetId': billet.id }) }}">
 								<button type="button" class="btn btn-danger btn-xs" value="Signaler">Signaler</button></a>
 							</div>
 							
@@ -79,7 +85,7 @@
 								</blockquote>
 							</div>	
 							<div class="col-sm-2">
-								<a href="{{ path('comment_report', { 'id': subChildComment.id }) }}">
+								<a href="{{ path('comment_report', { 'id': subChildComment.id, 'billetId': billet.id }) }}">
 								<button type="button" class="btn btn-danger btn-xs" value="Signaler">Signaler</button></a>
 							</div>
 	

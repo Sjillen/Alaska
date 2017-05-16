@@ -11,7 +11,7 @@ $app->match('/billet/{id}', "Alaska\Controller\HomeController::billetAction")
 $app->match('/comment/{idParent}/{billetId}/add/', "Alaska\Controller\HomeController::addCommentAction")
 ->bind('comment_add');
 
-$app->match('/comment/{id}/report/', "Alaska\Controller\HomeController::reportAction")
+$app->match('/comment/{id}/{billetId}/report/', "Alaska\Controller\HomeController::reportAction")
 ->bind('comment_report');
 
 // Login form

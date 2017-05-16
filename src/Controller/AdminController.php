@@ -4,6 +4,7 @@ namespace Alaska\Controller;
 
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\File\File;
 use Alaska\Domain\Billet;
 use Alaska\Domain\User;
 use Alaska\Form\Type\BilletType;
@@ -42,6 +43,13 @@ class AdminController
 		$billetForm->handleRequest($request);
 		if ($billetForm->isSubmitted() && $billetForm->isValid()) 
 		{
+			$file = $billet->getPic();
+			$fileName = md5(uniqid()).'.'.$file->guessExtension();
+			$file->move(
+				$this->getParameter('brochures_directory'),
+				$fileName
+			);
+			$billet->setPic($fileName);
 			$app['dao.billet']->save($billet);
 			$app['session']->getFlashBag()->add('success', 'Le billet a été ajouté avec succès.');
 		}
@@ -149,7 +157,7 @@ class AdminController
 			// find the default encoder
 			$encoder = $app['security.encoder.bcrypt'];
 			// compute the encoded password
-			$password = $encode->encodePassword($plainPassword, $user=getSalt());
+			$password = $encoder->encodePassword($plainPassword, $user->getSalt());
 			$user->setPassword($password);
 			$app['dao.user']->save($user);
 			$app['session']->getFlashBag()->add('success', 'Le profil utilisateur a été créé avec succès.');
@@ -159,6 +167,26 @@ class AdminController
 			'userForm'		=> $userForm->createView()));
 	}
 
+	public function editUserAction ($id, Request $request, Application $app)
+	{
+	 	$user =$app['dao.user']->find($id);
+	 	$userForm = $app['form.factory']->create(UserType::class, $user);
+	 	$userForm->handleRequest($request);
+	 	if ($userForm->isSubmitted() && $userForm->isValid()) {
+	 		$plainPassword = $user->getPassword();
+	 		// find the encoded password
+	 		$encoder = $app['security.encoder_factory']->getEncoder($user);
+	 		// compute the encode password
+	 		$password = $encoder->encodePassword($plainPassword, $user->getSalt());
+	 		$user->setPassword($password);
+	 		$app['dao.user']->save($user);
+	 		$app['session']->getFlashBag()->add('success', 'L\'utilisateur a ete modifie avec succes');
+	 	}
+	 	return $app['twig']->render('user_form.html.twig', array(
+	 		'title' => 'Modifier utilisateur',
+	 		'userForm' => $userForm->createView()));
+ 	}
+
     /**
      * Delete user controller.
      *
@@ -166,8 +194,6 @@ class AdminController
      * @param Application $app Silex application
      */
     public function deleteUserAction($id, Application $app) {
-        // Delete all associated comments
-        $app['dao.comment']->deleteAllByUser($id);
         // Delete the user
         $app['dao.user']->delete($id);
         $app['session']->getFlashBag()->add('success', 'Le profil utilisateur a été supprimé avec succès.');

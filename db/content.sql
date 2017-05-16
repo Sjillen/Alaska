@@ -1,9 +1,9 @@
 insert into t_billet values
-(1, 'Presentation de l\'auteur', 'L\'auteur se nomme Jean Fortroche.');
+(1, 'Presentation de l\'auteur', 'L\'auteur se nomme Jean Fortroche.',null);
 insert into t_billet values
-(2, 'Presentation du principe', 'Le livre Billet simple pour l\'Alaska sera publie en episodes sur ce site.');
+(2, 'Presentation du principe', 'Le livre Billet simple pour l\'Alaska sera publie en episodes sur ce site.', null);
 insert into t_billet values
-(3, 'Prologue', 'Il etait une fois en Alaska...');
+(3, 'Prologue', 'Il etait une fois en Alaska...', null);
 
 /*raw password is 'john' for all */
 insert into t_user values

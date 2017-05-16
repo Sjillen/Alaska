@@ -25,6 +25,14 @@ class Billet
 	 */
 	private $content;
 
+	/**
+	 *Billet picture.
+	 *
+	 * @var string
+	 */
+	private $pic;
+
+
 	public function getId() {
 		return $this->id;
 	}
@@ -49,6 +57,15 @@ class Billet
 
 	public function setContent($content) {
 		$this->content = $content;
+		return $this;
+	}
+
+	public function getPic() {
+		return $this->pic;
+	}
+
+	public function setPic($pic) {
+		$this->pic = $pic;
 		return $this;
 	}
 }
