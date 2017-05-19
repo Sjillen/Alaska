@@ -43,13 +43,14 @@ class AdminController
 		$billetForm->handleRequest($request);
 		if ($billetForm->isSubmitted() && $billetForm->isValid()) 
 		{
-			$file = $billet->getPic();
-			$fileName = md5(uniqid()).'.'.$file->guessExtension();
-			$file->move(
-				$this->getParameter('brochures_directory'),
-				$fileName
-			);
-			$billet->setPic($fileName);
+			if ($billet->getImg() == null)
+			{
+				$billet->setImg(null);
+			}
+			else
+			{
+				$billet = $this->setImgHeader($billet, $app);
+			}
 			$app['dao.billet']->save($billet);
 			$app['session']->getFlashBag()->add('success', 'Le billet a été ajouté avec succès.');
 		}
@@ -69,10 +70,30 @@ class AdminController
 	public function editBilletAction($id, Request $request, Application $app)
 	{
 		$billet = $app['dao.billet']->find($id);
+		$billetImg = $billet->getImg();
 		$billetForm = $app['form.factory']->create(BilletType::class, $billet);
 		$billetForm->handleRequest($request);
 		if ($billetForm->isSubmitted() && $billetForm->isValid())
 		{
+			if ($billetImg !== 'assets/images/default.jpg')
+			{
+				if ($billet->getImg() !== null)
+				{
+					$billet = $this->setImgHeader($billet, $app);
+				}
+				else
+				{
+					$billet->setImg($billetImg);
+				}
+			}
+			elseif ($billet->getImg() !== null)
+			{
+				$billet = $this->setImgHeader($billet, $app);
+			}
+			else
+			{
+				$billet->setImg($billetImg);
+			}
 			$app['dao.billet']->save($billet);
 			$app['session']->getFlashBag()->add('success', 'Le billet a été modifié avec succès.');
 		}
@@ -96,6 +117,38 @@ class AdminController
 		$app['session']->getFlashBag()->add('success', 'Le billet a été supprimé avec succès.');
 		// Redirect to admin home page
 		return $app->redirect($app['url_generator']->generate('admin'));
+	}
+
+	private function setImgHeader (Billet $billet, Application $app)
+	{
+		$img = $billet->getImg();
+		$messageUser = $app['dao.file']->uploadable($img, array('jpeg', 'png'));
+		if ($messageUser !== true)
+		{
+			$app['session']->getFlashBag()->add($messageUser[0], $messageUser[1]);
+			$billet->setImg('assets/images/default.jpg');
+		}
+		else
+		{
+			$newWidth = 750;
+			$maxHeight = 700;
+			$messageUser = $app['dao.file']->checkImageDimension($img, $newWidth, $maxHeight);
+			if (array_key_exists('newHeight', $messageUser))
+			{
+				$filename = $app['dao.file']->uploadFile($img, 'assets/images/', $newWidth, $messageUser['newHeight']);
+				if ($filename) 
+				{
+					$billet->setImg('assets/images/' . $filename);
+					return $billet;
+				}
+			}
+			else
+			{
+				$app['session']->getFlashBag()->add($messageUser[0], $messageUser[1]);
+				$billet->setImg('assets/images/default.jpg');
+			}
+		}
+		return $billet;
 	}
 
 	/**

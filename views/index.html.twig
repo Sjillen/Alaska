@@ -3,13 +3,35 @@
 {% block title %}Home{% endblock %}
 {% block content %}
 <div class="row">
-{% for billet in billets %}
-<article class="col-sm-8 col-sm-offset-2">
+	<div id="carouselHeader" class="container">
+		<div class="hidden-xs col-sm-12">
+			<div class="carousel slide">
+				<div class="carousel-inner" role="listbox">
+					<div class="item active">
+						<img class="first-slide" src="{{ asset('/assets/images/components/bg.jpg') }}" alt="bgIndex">
+						<div class="container">
+							<div class="carousel-caption home-carousel">
+								<h1>Billet Simple pour L'Alaska</h1>
+								<p>Découvrez une histoire originale de Jean Forteroche</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	{% for billet in billets %}
 	
-    <h2><a class="billetTitle" href="{{ path('billet', { 'id': billet.id }) }}">{{ billet.title }}</a></h2>
-        <p>{{ billet.content | raw }}</p>
-    
-</article>
+	<article  class="col-sm-8 col-sm-offset-2">
+	<div class="snow">
+
+		<div class="wrapper">
+	    <h2><a class="billetTitle" href="{{ path('billet', { 'id': billet.id }) }}">{{ billet.title }}</a></h2>
+	        {{ billet.content | raw }}
+	    </div>
+	  </div>  
+	</article>
+
 {% endfor %}
 </div>
 {% endblock %}

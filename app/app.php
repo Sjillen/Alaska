@@ -59,3 +59,7 @@ $app['dao.comment'] = function ($app) {
 	
 	return $commentDAO;
 };
+$app['dao.file'] = function () {
+	$fileDAO = new Alaska\DAO\FileDAO;
+	return $fileDAO;
+};

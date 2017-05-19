@@ -1,0 +1,73 @@
+body {
+	padding-top: 50px;
+	background-image: url(mainbg.jpg);
+}
+
+.billetTitle:hover, .billetTitle:focus {
+	text-decoration: none;
+}
+
+.footer {
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+    text-align: center;
+}
+
+.adminTable {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.carousel-caption.home-carousel {
+	top: 10%;
+	bottom: auto;
+}
+
+.img-article
+{
+	height:300px;
+	background-size:cover;
+	margin-bottom: 20px;
+}
+
+h2 {
+	text-align: center;
+}
+
+#carouselHeader{
+	margin-bottom: 30px;
+}
+
+.snow {
+ margin: 0 0 30px;
+    background: url(header-bg.png);
+    background: url(snow-bg.png) repeat-y center, url(header-bg.png);
+    
+
+}
+
+@keyframes animate-snow
+{
+    0% { background-position: center 0, 0 0;}
+    100% { background-position: center 885px, 0 0;}
+}
+
+@-webkit-keyframes animate-snow
+{
+    0% { background-position: center 0, 0 0;}
+    100% { background-position: center 885px, 0 0;}
+}
+
+.wrapper{
+    
+    height: 310px;
+    margin: auto;
+    overflow: hidden;
+    position: relative;
+    background: url(wrapper-bg.png) no-repeat bottom;
+}
+
+.snow:hover {
+	-webkit-animation: animate-snow 9s linear infinite;
+	animation: animate-snow 9s linear infinite;
+}

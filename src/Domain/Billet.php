@@ -30,7 +30,7 @@ class Billet
 	 *
 	 * @var string
 	 */
-	private $pic;
+	private $img;
 
 
 	public function getId() {
@@ -60,12 +60,12 @@ class Billet
 		return $this;
 	}
 
-	public function getPic() {
-		return $this->pic;
+	public function getImg() {
+		return $this->img;
 	}
 
-	public function setPic($pic) {
-		$this->pic = $pic;
+	public function setImg($img) {
+		$this->img = $img;
 		return $this;
 	}
 }

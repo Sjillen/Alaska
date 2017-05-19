@@ -16,8 +16,10 @@ class BilletType extends AbstractType
 			->add('title', TextType::class, array(
 				'label' => 'Titre',
 				))
-			->add('pic', FileType::class, array(
+			->add('img', FileType::class, array(
 				'label' => 'Image',
+				'data_class' => null,
+
 				))
 			->add('content', TextareaType::class, array(
 				'label' => 'Contenu',

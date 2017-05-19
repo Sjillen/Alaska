@@ -53,8 +53,14 @@ class BilletDAO extends DAO
 		$billet->setId($row['billet_id']);
 		$billet->setTitle($row['billet_title']);
 		$billet->setContent($row['billet_content']);
-		$billet->setPic($row['billet_pic']);
-		return $billet;
+		if (!$row['billet_img'])
+		{
+			$billet->setImg('/assets/images/default.jpg');
+		}
+		else
+		{
+			$billet->setImg($row['billet_img']);
+		}		return $billet;
 	}
 
 	/**
@@ -66,7 +72,7 @@ class BilletDAO extends DAO
 		$billetData = array(
 			'billet_title' => $billet->getTitle(),
 			'billet_content' => $billet->getContent(),
-			'billet_pic' => $billet->getPic()
+			'billet_img' => $billet->getImg()
 			);
 
 		if ($billet->getId()) {
