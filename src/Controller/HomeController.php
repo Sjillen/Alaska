@@ -27,7 +27,7 @@ class HomeController {
 	 */
 	public function navAction(Application $app) {
 		$billets = $app['dao.billet']->findAll();
-		return $app['twig']->render('layout.html.twig', array('billets' => $billets));
+		return $app['twig']->render('about.html.twig', array('billets' => $billets));
 	}
 
 	/**

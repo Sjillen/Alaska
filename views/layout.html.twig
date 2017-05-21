@@ -31,7 +31,7 @@
                                         {% endfor %}
                                     </ul>
                                 </li>
-                                <li><a href="#"><span class="glyphicon glyphicon-zoom-in"></span> A propos de l'auteur</a></li>  
+                                <li><a href="{{ path('about') }}"><span class="glyphicon glyphicon-zoom-in"></span> A propos de l'auteur</a></li>  
                                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                                 {% if app.user and is_granted('ROLE_ADMIN') %}
                                     <li class="{% if adminMenu is defined %}active{% endif %}"><a href="{{ path('admin') }}"><span class="glyphicon glyphicon-cog"></span> Administration</a></li>
@@ -59,8 +59,21 @@
         
         
         <div id="content">{% block content %}{% endblock %}</div>
-        <footer class="footer">
-             <strong>Billet simple pour l'Alaska</strong>, une histoire originale de Jean Forteroche.
+        <footer class="footer">           
+            <div class="row">
+                <div class="col-sm-4">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras at dui placerat, condimentum sem dignissim, vehicula arcu.</p>
+                </div>
+                <div class="col-sm-4">
+                    <strong>Billet simple pour l'Alaska</strong>, une histoire originale de Jean Forteroche.
+                    <p>&copy;2017 Jean Forteroche - Site réalisé par Thomas Proust</p>
+                </div>
+                <div class="col-sm-4">                        
+                        <a href="https://twitter.com/JForteroche" class="twitter-follow-button" data-size="large" data-lang="fr" data-show-count="false">Follow @JForteroche</a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+                        <iframe src="https://www.facebook.com/plugins/share_button.php?href=http%3A%2F%2Fjforteroche.com%2Falaska&layout=button&size=large&mobile_iframe=true&width=88&height=28&appId" width="88" height="28" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>              
+                </div>
+            </div>
         </footer>
     </div>
     
