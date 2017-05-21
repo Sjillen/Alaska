@@ -18,13 +18,16 @@ body {
 .footer {
     border-top: 1px solid #ccc;
     padding-top: 15px;
+    margin-top: 15px;
     text-align: center;
     background-color: #222222;
     color: #b7b6b6;
 }
 
 
-
+#imgHeader {
+	margin-bottom: 30px;
+}
 #blockComment {
 	border-top: 1px solid #ccc;
     padding-top: 10px;
