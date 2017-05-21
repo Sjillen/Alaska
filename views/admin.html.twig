@@ -4,6 +4,7 @@
 {% block title %}Administration{% endblock %}
 
 {% block content %}
+<div id ="adminBody">
 <h2 class="text-center">{{ block('title') }}</h2>
 
 {% for flashMessage in app.session.flashbag.get('success') %}
@@ -175,7 +176,7 @@
 	        <a href="{{ path('admin_user_add') }}"><button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Add user</button></a>
 		</div>
 </div>
-
+</div>
 {% endblock %}
 
 

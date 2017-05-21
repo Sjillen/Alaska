@@ -3,6 +3,8 @@
 // Home page
 $app->get('/', "Alaska\Controller\HomeController::indexAction")
 ->bind('home');
+$app->get('/', "Alaska\Controller\HomeController::navAction")
+->bind('navbar');
 
 // Detailed info about an billet
 $app->match('/billet/{id}', "Alaska\Controller\HomeController::billetAction")

@@ -20,6 +20,16 @@ class HomeController {
 		return $app['twig']->render('index.html.twig', array('billets' => $billets));
 	}
 
+		/**
+	 * Layout page controller.
+	 *
+	 * @param Application $app Silex application
+	 */
+	public function navAction(Application $app) {
+		$billets = $app['dao.billet']->findAll();
+		return $app['twig']->render('layout.html.twig', array('billets' => $billets));
+	}
+
 	/**
 	 * Billet details controller.
 	 *
@@ -28,6 +38,7 @@ class HomeController {
 	 * @param Application $app Silex application
 	 */
 	public function billetAction($id, Request $request, Application $app) {
+		$billets = $app['dao.billet']->findAll();
 		$billet = $app['dao.billet']->find($id);
 		$commentFormView = null;
 	
@@ -46,6 +57,7 @@ class HomeController {
 		
 
 		return $app['twig']->render('billet.html.twig', array(
+			'billets' => $billets,
 			'billet' => $billet,
 			'comments' => $comments,
 			'commentForm' => $commentFormView
@@ -74,8 +86,8 @@ class HomeController {
 		}
 		else
 		{
-			$comment->setAuthor($request->get('commentFormPseudo' .$idParent));
-			$comment->setContent($request->get('commentFormContent'.$idParent));
+			$comment->setAuthor($request->get('publishFormPseudo'));
+			$comment->setContent($request->get('publishFormContent'));
 			$comment->setParent(null);
 			$comment->setReport(0);
 		}
@@ -100,7 +112,9 @@ class HomeController {
 	 * @param Application $app Silex application
 	 */
 	public function loginAction(Request $request, Application $app) {
+		$billets = $app['dao.billet']->findAll();
 		return $app['twig']->render('login.html.twig', array(
+			'billets'		=> $billets,
 			'error'			=> $app['security.last_error']($request),
 			'last_username'	=> $app['session']->get('security.last_username'),
 		));

@@ -38,6 +38,7 @@ class AdminController
 	 */
 	public function addBilletAction(Request $request, Application $app)
 	{
+		$billets = $app['dao.billet']->findAll();
 		$billet = new Billet();
 		$billetForm = $app['form.factory']->create(BilletType::class, $billet);
 		$billetForm->handleRequest($request);
@@ -55,6 +56,7 @@ class AdminController
 			$app['session']->getFlashBag()->add('success', 'Le billet a été ajouté avec succès.');
 		}
 		return $app['twig']->render('billet_form.html.twig', array(
+			'billets'		=> $billets,
 			'title' 		=> 'New billet',
 			'billetForm' 	=> $billetForm->createView()));
 
@@ -69,6 +71,7 @@ class AdminController
 	 */
 	public function editBilletAction($id, Request $request, Application $app)
 	{
+		$billets = $app['dao.billet']->findAll();
 		$billet = $app['dao.billet']->find($id);
 		$billetImg = $billet->getImg();
 		$billetForm = $app['form.factory']->create(BilletType::class, $billet);
@@ -98,6 +101,7 @@ class AdminController
 			$app['session']->getFlashBag()->add('success', 'Le billet a été modifié avec succès.');
 		}
 		return $app['twig']->render('billet_form.html.twig', array(
+			'billets'		=> $billets,
 			'title'			=> 'Edit billet',
 			'billetForm'	=> $billetForm->createView()));
 	}
@@ -160,6 +164,7 @@ class AdminController
 	 */
 	public function editCommentAction($id, Request $request, Application $app)
 	{
+		$billets = $app['dao.billet']->findAll();
 		$comment = $app['dao.comment']->find($id);
 		$commentForm = $app['form.factory']->create(CommentType::class, $comment);
 		$commentForm->handleRequest($request);
@@ -169,6 +174,7 @@ class AdminController
 			$app['session']->getFlashBag()->add('sucess', 'Le commentaire a été modifié avec succès.');
 		}
 		return $app['twig']->render('comment_form.html.twig', array(
+			'billets'		=> $billets,
 			'title'			=> 'Edit comment',
 			'commentForm'	=> $commentForm->createView()));
 	}
@@ -198,6 +204,7 @@ class AdminController
 	 */
 	public function addUserAction (Request $request, Application $app)
 	{
+		$billets = $app['dao.billet']->findAll();
 		$user = new User();
 		$userForm = $app['form.factory']->create(UserType::class, $user);
 		$userForm->handleRequest($request);
@@ -216,12 +223,14 @@ class AdminController
 			$app['session']->getFlashBag()->add('success', 'Le profil utilisateur a été créé avec succès.');
 		}
 		return $app['twig']->render('user_form.html.twig', array(
+			'billets'		=> $billets,
 			'title'			=> 'New User',
 			'userForm'		=> $userForm->createView()));
 	}
 
 	public function editUserAction ($id, Request $request, Application $app)
 	{
+	 	$billets = $app['dao.billet']->findAll();
 	 	$user =$app['dao.user']->find($id);
 	 	$userForm = $app['form.factory']->create(UserType::class, $user);
 	 	$userForm->handleRequest($request);
@@ -236,6 +245,7 @@ class AdminController
 	 		$app['session']->getFlashBag()->add('success', 'L\'utilisateur a ete modifie avec succes');
 	 	}
 	 	return $app['twig']->render('user_form.html.twig', array(
+	 		'billets' => $billets,
 	 		'title' => 'Modifier utilisateur',
 	 		'userForm' => $userForm->createView()));
  	}

@@ -1,6 +1,14 @@
+@font-face {
+	font-family: 'Montez-Regular';
+	src: url('Montez-Regular-webfont.eot') format('eot'),
+		 url('Montez-Regular-webfont.woff') format('woff'),
+		 url('Montez-Regular-webfont.svg') format('svg'),
+		 url('Montez-Regular-webfont.ttf') format('truetype');
+}
+
 body {
 	padding-top: 50px;
-	background-image: url(mainbg.jpg);
+	background: url(mainbg.png) repeat;
 }
 
 .billetTitle:hover, .billetTitle:focus {
@@ -11,11 +19,23 @@ body {
     border-top: 1px solid #ccc;
     padding-top: 10px;
     text-align: center;
+    background-color: #222222;
+    color: #b7b6b6;
+}
+
+#blockComment {
+	border-top: 1px solid #ccc;
+    padding-top: 10px;
 }
 
 .adminTable {
 	margin-top: 20px;
 	margin-bottom: 20px;
+
+}
+
+#adminBody {
+	background-color: white;
 }
 
 .carousel-caption.home-carousel {
@@ -30,44 +50,37 @@ body {
 	margin-bottom: 20px;
 }
 
+#commentBtn {
+	margin-bottom: 30px;
+}
+
+h1 {
+	font-family: 'Montez-Regular', arial, verdana, sans-serif;
+	font-size: 64px;
+}
 h2 {
 	text-align: center;
+	font-family: 'Montez-Regular', arial, verdana, sans-serif;
+	font-size: 48px;	
+}
+
+p {
+	font-family: tahoma, arial, verdana, sans-serif;
 }
 
 #carouselHeader{
 	margin-bottom: 30px;
 }
 
-.snow {
- margin: 0 0 30px;
-    background: url(header-bg.png);
-    background: url(snow-bg.png) repeat-y center, url(header-bg.png);
-    
+article {
+	
+	margin-bottom: 30px;
+	background: url(articleBg.jpg) no-repeat center;
+	-webkit-background-size: cover;
+	background-size: cover;
 
 }
 
-@keyframes animate-snow
-{
-    0% { background-position: center 0, 0 0;}
-    100% { background-position: center 885px, 0 0;}
-}
-
-@-webkit-keyframes animate-snow
-{
-    0% { background-position: center 0, 0 0;}
-    100% { background-position: center 885px, 0 0;}
-}
-
-.wrapper{
-    
-    height: 310px;
-    margin: auto;
-    overflow: hidden;
-    position: relative;
-    background: url(wrapper-bg.png) no-repeat bottom;
-}
-
-.snow:hover {
-	-webkit-animation: animate-snow 9s linear infinite;
-	animation: animate-snow 9s linear infinite;
+article p {
+	font-weight: bold;
 }
