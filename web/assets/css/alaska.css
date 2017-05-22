@@ -24,6 +24,10 @@ body {
     color: #b7b6b6;
 }
 
+#errorPanel {
+	padding-top: 30px;
+	padding-bottom: 10px;
+}
 
 #imgHeader {
 	margin-bottom: 30px;
@@ -31,6 +35,10 @@ body {
 #blockComment {
 	border-top: 1px solid #ccc;
     padding-top: 10px;
+}
+
+#publishComment {
+	margin-top: 10px;
 }
 
 .adminTable {
@@ -89,3 +97,4 @@ article {
 article p {
 	font-weight: bold;
 }
+

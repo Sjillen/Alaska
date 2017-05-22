@@ -6,6 +6,9 @@ $app->get('/', "Alaska\Controller\HomeController::indexAction")
 $app->get('/about/', "Alaska\Controller\HomeController::navAction")
 ->bind('about');
 
+$app->get('/error',"Alaska\Controller\HomeController::errorAction")
+->bind('error');
+
 // Detailed info about an billet
 $app->match('/billet/{id}', "Alaska\Controller\HomeController::billetAction")
 ->bind('billet');

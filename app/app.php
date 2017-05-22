@@ -2,6 +2,7 @@
 
 use Symfony\Component\Debug\ErrorHandler;
 use Symfony\Component\Debug\ExceptionHandler;
+use Symfony\Component\HttpFoundation\Request;
 
 //Register global error and exception handlers
 ErrorHandler::register();
@@ -44,6 +45,13 @@ $app->register(new Silex\Provider\FormServiceProvider());
 $app->register(new Silex\Provider\LocaleServiceProvider());
 $app->register(new Silex\Provider\TranslationServiceProvider());
 
+$app->register(new Silex\Provider\MonologServiceProvider(), array(
+	'monolog.logfile' => __DIR__.'/../var/log/alaska.log',
+	'monolog.name' => 'Alaska',
+	'monolog.level' => $app['monolog.level']
+));
+
+
 
 //Register services.
 $app['dao.billet'] = function ($app) {
@@ -63,3 +71,18 @@ $app['dao.file'] = function () {
 	$fileDAO = new Alaska\DAO\FileDAO;
 	return $fileDAO;
 };
+
+// Register error handler
+$app->error(function(\Exception $e, Request $request, $code) use ($app) {
+	switch($code) {
+		case 403:
+			$message ='Accès refusé.';
+			break;
+		case 404:
+			$message = 'La page est introuvable.';
+			break;
+		default:
+			$message = 'Quelquechose a mal tourné.';
+	}
+	return $app['twig']->render('error.html.twig', array('message' => $message));
+});

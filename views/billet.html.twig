@@ -3,11 +3,6 @@
 {% block title %}{{ billet.title }}{% endblock %}
 
 {% block content %}
-{% for flashMessage in app.session.flashbag.get('success') %}
-	<div class="alert alert-success">
-		{{ flashMessage }}
-	</div>
-{% endfor %}
 
 <div class="row">
 	<div class="col-sm-12">
@@ -22,6 +17,11 @@
 	{{ billet.content | raw }}
 	</div>
 	<div class="col-sm-8 col-sm-offset-2" id="blockComment">
+		{% for flashMessage in app.session.flashbag.get('success') %}
+		<div class="alert alert-success">
+		{{ flashMessage }}
+		</div>
+		{% endfor %}
 	<h2>Commentaires</h2>
 		<div class="row" id="commentBtn">
 			<div class="col-sm-4">	
@@ -31,10 +31,10 @@
 			<div id="publishComment" class="col-sm-9 collapse">							
 				<form name="publishForm" action="{{ path('comment_add', {'idParent': 'null', 'billetId': billet.id}) }}" method="post">
 					<div class="form-group">
-						<input type="text" class="form-control" rows="4" name="publishFormPseudo" placeholder="Votre pseudo...">
+						<input type="text" class="form-control" rows="4" name="publishFormPseudo" placeholder="Votre pseudo..." required>
 					</div>
 					<div class="form-group">
-						<textarea type="text" class="form-control" rows="4" name="publishFormContent" placeholder="Votre commentaire..."></textarea>
+						<textarea type="text" class="form-control" rows="4" name="publishFormContent" placeholder="Votre commentaire..." required></textarea>
 					</div>
 					<div class="form-group">
 						<input type="submit" class="btn btn-primary" value="Publier">
@@ -60,15 +60,15 @@
 
 							<div class="col-sm-4 col-xs-6 col-sm-offset-4 col-xs-offset-1">	
 								<div class="btn-group">
-								<a href="#" class="btn btn-primary btn-xs" value="Repondre" data-toggle="collapse" data-target="#{{ comment.id }}"><span class="fa fa-comments"></span> Repondre</a>									
-								<a href="{{ path('comment_report', { 'id': comment.id, 'billetId': billet.id }) }}" class="btn btn-danger btn-xs" value="Signaler"><span class="fa fa-thumbs-down lg"></span> Signaler</a>
+								<button href="#" class="btn btn-primary btn-xs" value="Repondre" data-toggle="collapse" data-target="#{{ comment.id }}"><span class="fa fa-comments"></span> Repondre</button>									
+								<a href="{{ path('comment_report', { 'id': comment.id, 'billetId': billet.id }) }}" ><button class="btn btn-danger btn-xs" value="Signaler"><span class="fa fa-thumbs-down lg"></span> Signaler</button></a>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="row">
-					<div id="{{ comment.id }}" class="col-sm-9 collapse">
+				<div class="row collapse" id="{{ comment.id }}">
+					<div class="col-sm-9">
 						<form name="answerForm{{ comment.id }}" action="{{ path('comment_add', {'idParent': comment.id, 'billetId': billet.id}) }}" method="post">
 							<div class="form-group">
 								<input type="text" class="form-control" rows="4" name="answerFormPseudo{{ comment.id }}" placeholder="Votre pseudo...">
@@ -99,15 +99,15 @@
 									</div>
 									<div class="col-sm-4 col-xs-6 col-sm-offset-4 col-xs-offset-4">	
 										<div class="btn-group">
-										<a href="#" class="btn btn-primary btn-xs" value="Repondre" data-toggle="collapse" data-target="#{{ childComment.id }}"><span class="fa fa-comments"></span> Repondre</a>									
-										<a href="{{ path('comment_report', { 'id': childComment.id, 'billetId': billet.id }) }}" class="btn btn-danger btn-xs" value="Signaler"><span class="fa fa-thumbs-down lg"></span> Signaler</a>
+										<button type="button" class="btn btn-primary btn-xs" value="Repondre" data-toggle="collapse" data-target="#{{ childComment.id }}"><span class="fa fa-comments"></span> Repondre</button>									
+										<a href="{{ path('comment_report', { 'id': childComment.id, 'billetId': billet.id }) }}"><button class="btn btn-danger btn-xs" value="Signaler"><span class="fa fa-thumbs-down lg"></span> Signaler</button></a>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>							
-						<div class="row">									
-							<div id="{{ childComment.id }}" class="col-sm-9 collapse">
+						<div class="row collapse" id="{{ childComment.id }}" >									
+							<div class="col-sm-9 ">
 								<form name="answerForm{{ childComment.id }}" action="{{ path('comment_add', {'idParent': childComment.id, 'billetId': billet.id}) }}" method="post">
 									<div class="form-group">
 										<input type="text" class="form-control" rows="4" name="answerFormPseudo{{ childComment.id }}" placeholder="Votre pseudo...">

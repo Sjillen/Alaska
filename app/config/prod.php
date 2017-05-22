@@ -11,5 +11,6 @@ $app['db.options'] = array(
 	'password'	=> '',
 );
 
-parameters:
-	brochures_directory: '%kernel.root_dir%/../web/images';
+
+//define log level
+$app['monolog.level'] = 'WARNING';

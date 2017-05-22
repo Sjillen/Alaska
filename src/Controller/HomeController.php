@@ -20,14 +20,24 @@ class HomeController {
 		return $app['twig']->render('index.html.twig', array('billets' => $billets));
 	}
 
-		/**
-	 * Layout page controller.
+	/**
+	 * About page controller.
 	 *
 	 * @param Application $app Silex application
 	 */
 	public function navAction(Application $app) {
 		$billets = $app['dao.billet']->findAll();
 		return $app['twig']->render('about.html.twig', array('billets' => $billets));
+	}
+
+	/**
+	 * Error page controller.
+	 *
+	 * @param Application $app Silex application
+	 */
+	public function errorAction(Application $app) {
+		$billets = $app['dao.billet']->findAll();
+		return $app['twig']->render('error.html.twig', array('billets' => $billets));
 	}
 
 	/**
